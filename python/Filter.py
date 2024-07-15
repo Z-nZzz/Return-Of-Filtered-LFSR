@@ -7,7 +7,7 @@ Cyclic Weightwise degree d Boolean function for Filter generators
 :param P: the feedback polynomial of the LFSR, 
 :param g: the base function of our filter with a structure of a list of monomial for instance g(x) = x1 + x2x3 would give g = [[1], [2, 3]]
 :param n: the number of variables of our filter function, 
-:param t: the position in the LFSR where the input varaiables of the filter are taken, 
+:param t: the position in the LFSR where the input variables of the filter are taken, 
 
 '''
 class Filter:
