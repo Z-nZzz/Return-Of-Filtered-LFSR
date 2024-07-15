@@ -5,7 +5,7 @@
 
 #define debug 0
 
-void lfsr_init(LFSR *lfsr, uint8_t *key, size_t key_len, uint16_t *taps, size_t taps_len) {
+void lfsr_init(LFSR *lfsr, uint8_t *key, size_t key_len, uint16_t *p, size_t p_len) {
     lfsr->s = (uint8_t*) calloc(key_len, sizeof(uint8_t));
     if (lfsr->s == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
@@ -13,9 +13,9 @@ void lfsr_init(LFSR *lfsr, uint8_t *key, size_t key_len, uint16_t *taps, size_t 
     for (size_t i = 0; i < key_len; i++) {
         lfsr->s[i] = key[i];
     }
-    lfsr->t = taps;
+    lfsr->p = p;
     lfsr->len = key_len;
-    lfsr->tlen = taps_len;
+    lfsr->p_len = p_len;
 }
 
 void print_state(LFSR *lfsr){
@@ -28,8 +28,8 @@ void print_state(LFSR *lfsr){
 //Computing the feedback bit using the feedback polynomial
 uint8_t lfsr_sum(LFSR *lfsr) {
     uint8_t s = 0;
-    for (size_t i = 0; i < lfsr->tlen; i++) {
-        s ^= lfsr->s[lfsr->t[i]];
+    for (size_t i = 0; i < lfsr->p_len; i++) {
+        s ^= lfsr->s[lfsr->p[i]];
     }
     return s;
 }
