@@ -8,8 +8,8 @@
 #define N 512
 
 int main() {
-    uint8_t key[] = {1, 0, 0, 1};
-    size_t key_len = 4;
+    uint64_t key[] = {9};
+    size_t key_len = 1;
     uint16_t P[] = {1, 3};
     size_t P_len = 2;
     size_t g_len = 2;

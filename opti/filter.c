@@ -11,20 +11,21 @@ Generating the list of positions of the taps for our filter of size (N, n)
 n must be lower than 129 to avoid having too much collisions, and N significantly greater than n
 :param res a table of length n that will store the taps positions
 */
-void gen_taps(size_t N, size_t n, uint16_t *res){
+void gen_taps(size_t N, size_t n, uint8_t **res){
     uint16_t taps[] = {0, 2, 5, 10, 17, 28, 41, 58, 77, 100, 129, 160, 197, 238, 281, 328, 381, 440, 501, 568, 639, 712, 791, 874, 963, 1060, 1161, 1264, 1371, 1480, 1593, 1720, 1851, 1988, 2127, 2276, 2427, 2584, 2747, 2914, 3087, 3266, 3447, 3638, 3831, 4028, 4227, 4438, 4661, 4888, 5117, 5350, 5589, 5830, 6081, 6338, 6601, 6870, 7141, 7418, 7699, 7982, 8275, 8582, 8893, 9206, 9523, 9854, 10191, 10538, 10887, 11240, 11599, 11966, 12339, 12718, 13101, 13490, 13887, 14288, 14697, 15116, 15537, 15968, 16401, 16840, 17283, 17732, 18189, 18650, 19113, 19580, 20059, 20546, 21037, 21536, 22039, 22548, 23069, 23592, 24133, 24680, 25237, 25800, 26369, 26940, 27517, 28104, 28697, 29296, 29897, 30504, 31117, 31734, 32353, 32984, 33625, 34268, 34915, 35568, 36227, 36888, 37561, 38238, 38921, 39612, 40313, 41022, 41741, 42468, 43201, 43940, 44683, 45434, 46191, 46952, 47721, 48494, 49281, 50078, 50887, 51698, 52519, 53342, 54169, 54998, 55837, 56690, 57547, 58406};
     //uint16_t taps[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997, 1009, 1013, 1019, 1021};
 
-    uint16_t tmp;
+    uint8_t tmp[2];
     int c = 0;
     int i = 0;
     //Collecting n distinct tap position modulo N from taps
     while (i < n){
-        tmp = taps[i+c] % N;
+        tmp[0] = (taps[i+c] % N) / 64;
+        tmp[1] = (taps[i+c] % N) % 64;
         uint8_t is_uniq = 1;
         //Figuring out if the tap position is already in res
         for (int k = 0; k < i; k++){
-            if (tmp == res[k]){
+            if (tmp[0] == res[k][0]){
                 c ++;
                 is_uniq = 0;
                 break;
@@ -47,13 +48,13 @@ Cyclic Weightwise degree d Boolean function for Filter generators using LFSR
 :param n: amount of variables taken by the filter function, 
 */
 
-void filter_init(Filter *filter, uint8_t *key, size_t key_len, uint16_t *P, size_t P_len, int **g, size_t g_len, size_t n) {
+void filter_init(Filter *filter, uint64_t *key, size_t key_len, uint16_t *P, size_t P_len, int **g, size_t g_len, size_t n) {
     lfsr_init(&filter->lfsr, key, key_len, P, P_len);
     filter->N = key_len;
     filter->g = g;
     filter->g_len = g_len;
     filter->n = n;
-    uint16_t *taps = malloc(n* sizeof(uint16_t));
+    uint8_t **taps = malloc(n* sizeof(uint8_t[2]));
     gen_taps(key_len, n, taps);
     filter->taps = taps;
 }

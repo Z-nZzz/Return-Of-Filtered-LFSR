@@ -9,6 +9,7 @@
 #define N 1024
 //#define N 2048
 #define n 128
+#define W_size 64
 //100Ko
 #define stream_len 800000
 
@@ -19,14 +20,14 @@ int main() {
     //uint16_t P[] = {0, 12, 13, 18, 2047};
     
     //Initialising the key and initial state of our LFSR
-    uint8_t* key = calloc(N, sizeof(uint8_t));
+    uint64_t* key = calloc(N/W_size, sizeof(uint64_t));
     if (key == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
     return 1;
 }
     //Picking a random key for testing purpose
-    for (size_t i = 0; i < N; i++) {
-        key[i] = rand() % 2;
+    for (size_t i = 0; i < N/W_size; i++) {
+        key[i] = rand();
         //printf("%d\n", key[i]);
     }
     //printing the key
@@ -100,7 +101,7 @@ int main() {
     g[1][2] = -1;
     size_t g_len = 2;
 
-    //Init and then use of the filter
+    //Init and use of the filter
     Filter filter;
     filter_init(&filter, key, N, P, sizeof(P) / sizeof(P[0]), g, g_len, n);
 
