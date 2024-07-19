@@ -9,18 +9,20 @@ typedef struct {
     uint8_t **p;
     size_t len;
     size_t p_len;
-} LFSR;
+} LFSR_t;
 
-void lfsr_init(LFSR *lfsr, uint64_t *key, size_t key_len, uint16_t *p, size_t p_len);
+void lfsr_init(LFSR_t *lfsr, uint64_t *key, size_t key_len, uint16_t *p, size_t p_len);
 
-void print_state(LFSR *lfsr);
+uint8_t get_bit(LFSR_t *lfsr, uint8_t nw, uint8_t pw);
 
-uint8_t lfsr_sum(LFSR *lfsr);
+void print_state(LFSR_t *lfsr);
 
-uint8_t lfsr_bit(LFSR *lfsr);
+uint8_t lfsr_sum(LFSR_t *lfsr);
 
-uint8_t get_bit(LFSR *lfsr, uint8_t nw, uint8_t pw);
+uint8_t lfsr_bit(LFSR_t *lfsr);
 
-void free_lfsr(LFSR *lfsr);
+uint8_t get_bit(LFSR_t *lfsr, uint8_t nw, uint8_t pw);
+
+void free_lfsr(LFSR_t *lfsr);
 
 #endif /* LFSR_H */

@@ -63,7 +63,7 @@ uint8_t filter_bit(Filter *filter) {
     uint8_t state[filter->n];
     //Getting the variables for our filter from the LFSR state
     for (size_t i = 0; i < filter->n; i++) {
-        state[i] = filter->lfsr.s[filter->taps[i]%filter->N];
+        state[i] = get_bit(&filter->lfsr, filter->taps[i][0], filter->taps[i][1]);
         //printf("%d", state[i]);
     }
     //printf("\n");
@@ -100,7 +100,7 @@ uint8_t filter_byte(Filter *filter) {
     return byte;
 }
 void free_filter(Filter *filter){
-    free (filter->taps); 
+    free(filter->taps); 
     free_lfsr(&filter->lfsr);
 }
 

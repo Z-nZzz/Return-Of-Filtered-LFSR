@@ -24,9 +24,12 @@ void lfsr_init(LFSR *lfsr, uint64_t *key, size_t key_len, uint16_t *p, size_t p_
         lfsr->s[i] = key[i];
     }
     
-    lfsr->p = malloc(p_len * sizeof(uint8_t[2]));
+    lfsr->p = malloc(p_len * sizeof(uint8_t*));
     if (lfsr->p == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
+    }
+    for (size_t i = 0; i < p_len; i++) {
+        lfsr->p[i] = malloc(2 * sizeof(uint8_t));
     }
     wpos_from_intpos(p, p_len, lfsr->p);
     lfsr->len = len;
@@ -63,9 +66,9 @@ uint8_t lfsr_bit(LFSR *lfsr) {
 
     for (size_t i = lfsr->len - 1; i > 0; i--) {
         uint8_t tmp = get_bit(lfsr, i-1, W_size - 1);
-        lfsr->s[i] = lfsr->s[i] >> 1 |tmp << W_size - 1;
+        lfsr->s[i] = (lfsr->s[i] >> 1) | tmp;
     }
-    lfsr->s[0] = new_bit;
+    lfsr->s[0] = (lfsr->s[0] >> 1) | new_bit;
     return b;
 }
 

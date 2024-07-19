@@ -12,17 +12,17 @@ typedef struct {
     size_t g_len;
     size_t n;
     uint8_t**taps;
-} Filter;
+} Filter_t;
 
 void gen_taps(size_t N, size_t n, uint8_t **res);
 
-void filter_init(Filter *filter, uint64_t *key, size_t key_len, uint16_t *P, size_t P_len, int **g, size_t g_len,size_t n);
+void filter_init(Filter_t *filter, uint64_t *key, size_t key_len, uint16_t *P, size_t P_len, int **g, size_t g_len,size_t n);
 
-uint8_t filter_bit(Filter *filter);
+uint8_t filter_bit(Filter_t *filter);
 
-uint8_t filter_byte(Filter *filter);
+uint8_t filter_byte(Filter_t *filter);
 
-void free_filter(Filter *filter);
+void free_filter(Filter_t *filter);
 
 #endif /* FILTER_H */
 
