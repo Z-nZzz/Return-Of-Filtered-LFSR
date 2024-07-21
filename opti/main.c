@@ -5,35 +5,26 @@
 #include <math.h>
 #include "filter.h"
 
-//#define N 512
-#define N 1024
-//#define N 2048
-#define n 128
-#define W_size 64
-//100Ko
 #define stream_len 800000
 
 int main() {
     //Our feedback polynomial 
     //uint16_t P[] = {1, 4, 7, 511};
-    uint16_t P[] = {5, 18, 1023};
+    //uint16_t P[] = {31, 520};
     //uint16_t P[] = {0, 12, 13, 18, 2047};
     
-    //Initialising the key and initial state of our LFSR
-    uint64_t* key = calloc(N/W_size, sizeof(uint64_t));
-    if (key == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-    return 1;
-}
+    //Initialising the key and initial state of our LFSR_t
+    uint64_t key [NB_WORD];
+    
     //Picking a random key for testing purpose
-    for (size_t i = 0; i < N/W_size; i++) {
+    for (size_t i = 0; i < NB_WORD; i++) {
         key[i] = rand();
         //printf("%d\n", key[i]);
     }
     //printing the key
     double nkey = 0;
-    for (size_t i = 0; i < N; i++) {
-        nkey += pow(2,(N - 1 - i)) * key[i];
+    for (size_t i = 0; i < NB_WORD; i++) {
+        nkey += pow(2, 64 * (NB_WORD - 1 - i)) * key[i];
         //printf("%f\n", key[i]);
     }
 
@@ -102,8 +93,8 @@ int main() {
     size_t g_len = 2;
 
     //Init and use of the filter
-    Filter filter;
-    filter_init(&filter, key, N, P, sizeof(P) / sizeof(P[0]), g, g_len, n);
+    Filter_t filter;
+    filter_init(&filter, key, g, g_len);
 
     clock_t start_time = clock();
     uint8_t keystream[stream_len];
@@ -121,8 +112,6 @@ int main() {
         free(g[i]);
     }
     free(g);
-    free(key);
-    free_filter(&filter);
     return 0;
 }
 
