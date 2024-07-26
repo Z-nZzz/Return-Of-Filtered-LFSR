@@ -26,6 +26,4 @@ uint8_t lfsr_sum(LFSR_t *lfsr);
 
 uint8_t lfsr_bit(LFSR_t *lfsr);
 
-void free_lfsr(LFSR_t *lfsr);
-
 #endif /* LFSR_H */
