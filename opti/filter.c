@@ -7,7 +7,7 @@
 
 //const uint16_t Taps_tmp[N_FILTER][2] ={{0, 0}, {0, 2}, {0, 5}, {0, 10}, {0, 17}, {0, 28}, {0, 41}, {0, 58}, {1, 13}, {1, 36}, {2, 1}, {2, 32}, {3, 5}, {3, 46}, {4, 25}, {5, 8}, {5, 61}, {6, 56}, {7, 53}, {0, 47}, {1, 54}, {2, 63}, {4, 14}, {5, 33}, {6, 58}, {0, 18}, {1, 55}, {3, 30}, {5, 9}, {6, 54}, {0, 30}, {2, 29}, {4, 32}, {6, 41}, {0, 43}, {3, 0}, {5, 23}, {7, 52}, {2, 14}, {4, 53}, {7, 34}, {2, 12}, {5, 1}, {8, 0}, {2, 56}, {0, 59}, {7, 45}, {3, 7}, {6, 44}, {5, 59}, {1, 35}, {5, 30}, {1, 22}, {5, 29}, {1, 33}, {5, 48}, {1, 60}, {6, 21}, {2, 39}, {7, 12}, {3, 54}, {0, 36}, {2, 17}, {7, 28}, {4, 36}, {7, 19}, {4, 43}, {2, 9}, {7, 56}, {5, 36}, {3, 22}, {1, 12}, {7, 17}, {5, 21}, {3, 29}, {1, 45}, {0, 7}, {5, 18}, {3, 58}, {2, 40}, {1, 26}, {7, 27}, {6, 31}, {5, 37}, {4, 47}, {4, 5}, {3, 35}, {2, 47}, {2, 19}, {3, 1}, {3, 37}, {4, 15}, {4, 63}, {5, 49}, {7, 43}, {0, 42}, {1, 56}, {3, 8}, {4, 30}, {5, 58}, {7, 26}, {0, 51}, {2, 33}, {6, 19}, {0, 8}, {4, 22}, {6, 34}, {0, 49}, {3, 13}, {5, 47}, {0, 16}, {3, 4}, {6, 0}, {0, 61}, {4, 11}, {7, 31}, {2, 48}, {6, 14}, {1, 43}, {0, 62}, {4, 54}, {4, 51}, {6, 35}, {7, 58}, {4, 37}, {6, 38}, {3, 45}, {0, 54}};
 
-const uint64_t Taps[NB_WORD] = {7803205505086064037,1279066386378797056,9295853506047660546,306350501190967731,9252795179579000864,3171519516457042690, 378322488476057601, 373842769334636544,1};
+const int_t Taps[NB_WORD] = {7803205505086064037,1279066386378797056,9295853506047660546,306350501190967731,9252795179579000864,3171519516457042690, 378322488476057601, 373842769334636544,1};
 
 
 /*
@@ -17,14 +17,14 @@ Cyclic Weightwise degree d Boolean function for Filter_t generators using LFSR
 :param key: the initial state of the LFSR, 
 :param g: the base function of our filter with a structure of a list of monomial ending with a -1, for instance g(x) = x1 + x2x3 would give g = [[0, -1], [1, 2, -1]], the -1 is used to know that the list is over as we do not necessarilly have monomials of the same degree,
 */
-void filter_init(Filter_t *filter, uint64_t *key, int **g, size_t g_len) {
+void filter_init(Filter_t *filter, int_t *key, int **g, size_t g_len) {
     lfsr_init(filter->lfsr, key);
     filter->g = g;
     filter->g_len = g_len;
 }
 //Generating one bit of keystream with the filter function and the state of the LFSR that is also updated
 uint8_t filter_bit(Filter_t *filter) {
-    uint64_t state[N_FILTER] = {0};
+    int_t state[N_FILTER] = {0};
     //Getting the variables for our filter from the LFSR state
     for (size_t i = 0; i < NB_WORD; i++) {
         state[i] = Taps[i] & (filter->lfsr->s[i]);
