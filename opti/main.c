@@ -13,16 +13,24 @@ int main() {
     //uint16_t P[] = {31, 520};
     //uint16_t P[] = {0, 12, 13, 18, 2047};
     
-    //Initialising the key and initial state of our LFSR_t
     uint64_t key [NB_WORD];
+    double nkey = 0;
+    size_t g_len = 2;
+    clock_t start_time;
+    clock_t end_time;
+    double execution_time; 
+    uint8_t keystream[stream_len];
+    int **g;
+    Filter_t filter;
+    LFSR_t lfsr;
     
+    //Initialising the key and initial state of our LFSR_t
     //Picking a random key for testing purpose
     for (size_t i = 0; i < NB_WORD; i++) {
         key[i] = rand();
         //printf("%d\n", key[i]);
     }
     //printing the key
-    double nkey = 0;
     for (size_t i = 0; i < NB_WORD; i++) {
         nkey += pow(2, 64 * (NB_WORD - 1 - i)) * key[i];
         //printf("%f\n", key[i]);
@@ -64,7 +72,7 @@ int main() {
     size_t g_len = n/2;
 */
  //Our Cyclic weightwise quadratic function base g = t = x_0 + x_1x_2
-    int **g = malloc(2 * sizeof(int *));
+    g = malloc(2 * sizeof(int *));
     if (g == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
     return 1;
@@ -90,22 +98,19 @@ int main() {
     g[1][0] = 1;
     g[1][1] = 2;
     g[1][2] = -1;
-    size_t g_len = 2;
 
     //Init and use of the filter
-    Filter_t filter;
-    filter_init(&filter, key, g, g_len);
-
-    clock_t start_time = clock();
-    uint8_t keystream[stream_len];
+    filter_init(&filter, &lfsr, key, g, g_len);
+    
+    start_time = clock();
     for (size_t i = 0; i < stream_len; i++) {
         keystream[i] = filter_bit(&filter);
         //printf("%d", keystream[i]);
     }
-    clock_t end_time = clock();
+    end_time = clock();
 
 
-    double execution_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+    execution_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
     printf("Execution time to generate 100Ko of keystream: %.6f seconds\n", execution_time);
    
     for (int i = 0; i < g_len; i++) {

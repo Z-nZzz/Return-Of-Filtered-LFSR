@@ -15,7 +15,7 @@ typedef struct {
 
 //void gen_taps(size_t N, size_t n, uint8_t **res);
 
-void filter_init(Filter_t *filter, int_t *key, int **g, size_t g_len);
+void filter_init(Filter_t *filter, LFSR_t *lfsr, int_t *key, int **g, size_t g_len);
 
 uint8_t filter_bit(Filter_t *filter);
 

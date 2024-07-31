@@ -17,8 +17,9 @@ Cyclic Weightwise degree d Boolean function for Filter_t generators using LFSR
 :param key: the initial state of the LFSR, 
 :param g: the base function of our filter with a structure of a list of monomial ending with a -1, for instance g(x) = x1 + x2x3 would give g = [[0, -1], [1, 2, -1]], the -1 is used to know that the list is over as we do not necessarilly have monomials of the same degree,
 */
-void filter_init(Filter_t *filter, int_t *key, int **g, size_t g_len) {
-    lfsr_init(filter->lfsr, key);
+void filter_init(Filter_t *filter, LFSR_t *lfsr, int_t *key, int **g, size_t g_len) {
+    lfsr_init(lfsr, key);
+    filter->lfsr = lfsr; 
     filter->g = g;
     filter->g_len = g_len;
 }

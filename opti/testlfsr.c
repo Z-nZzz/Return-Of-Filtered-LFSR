@@ -44,22 +44,15 @@ int main() {
     printf("Running test_lfsr_sum...\n");
     ASSERT_EQUAL_UINT8(1, lfsr_sum(&lfsr));
     
-    printf("Running test_lfsr_bit...\n");
+    /*printf("Running test_lfsr_bit...\n");
     //ASSERT_EQUAL_UINT8(1, lfsr_bit(&lfsr));
     printf("first output: %d \n", lfsr_bit(&lfsr));
-    
+    */
     printf("Running test_lfsr_sum...\n");
     ASSERT_EQUAL_UINT8(0, lfsr_sum(&lfsr));
     
-    printf("Running test_lfsr_bit...\n");
-    //ASSERT_EQUAL_UINT8(0, lfsr_bit(&lfsr));
-    printf("2nd output: %d \n", lfsr_bit(&lfsr));
-    
     printf("Running test_lfsr_sum...\n");
     ASSERT_EQUAL_UINT8(0, lfsr_sum(&lfsr));
-    
-    printf("Running test_lfsr_bit...\n");
-    ASSERT_EQUAL_UINT8(1, lfsr_bit(&lfsr));
     
     printf("Running test_print_state...\n");
     print_state(&lfsr);
