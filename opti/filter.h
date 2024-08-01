@@ -11,6 +11,8 @@ typedef struct {
     LFSR_t *lfsr;
     int **g;
     size_t g_len;
+    uint8_t taps_cpl[NB_WORD][2];
+    int_t taps[NB_WORD];
 } Filter_t;
 
 //void gen_taps(size_t N, size_t n, uint8_t **res);

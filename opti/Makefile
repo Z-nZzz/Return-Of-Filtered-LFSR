@@ -6,6 +6,12 @@ all: main
 test: test.o lfsr.o filter.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
+testf: testfilter.o lfsr.o filter.o
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+
+testf.o: testfilter.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
 testl: testlfsr.o lfsr.o 
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 

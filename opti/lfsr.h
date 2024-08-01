@@ -5,14 +5,15 @@
 #include <stdint.h>
 
 #define N_LFSR 521
-#define W_SIZE 64
+#define W_SIZE 32
 #define NB_WORD (1 + N_LFSR / W_SIZE)
 #define N_FILTER 128
 #define P_LEN 2
 #define LAST_BIT_POS ((N_LFSR - 1) % W_SIZE)
 
 //const uint16_t POLY[P_LEN][2] =  {{31/W_SIZE, 31 % W_SIZE}, {520/W_SIZE, 520 % W_SIZE}};
-typedef uint64_t int_t;
+typedef uint32_t int_t;
+
 typedef struct {
     int_t s[NB_WORD];
 } LFSR_t;

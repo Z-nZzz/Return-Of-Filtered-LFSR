@@ -13,7 +13,7 @@ int main() {
     //uint16_t P[] = {31, 520};
     //uint16_t P[] = {0, 12, 13, 18, 2047};
     
-    uint64_t key [NB_WORD];
+    int_t key [NB_WORD];
     double nkey = 0;
     size_t g_len = 2;
     clock_t start_time;
@@ -23,16 +23,17 @@ int main() {
     int **g;
     Filter_t filter;
     LFSR_t lfsr;
+    int maxr = pow(2, W_SIZE);
     
     //Initialising the key and initial state of our LFSR_t
     //Picking a random key for testing purpose
     for (size_t i = 0; i < NB_WORD; i++) {
-        key[i] = rand();
+        key[i] = rand() % maxr;
         //printf("%d\n", key[i]);
     }
     //printing the key
     for (size_t i = 0; i < NB_WORD; i++) {
-        nkey += pow(2, 64 * (NB_WORD - 1 - i)) * key[i];
+        nkey += pow(2, W_SIZE * (NB_WORD - 1 - i)) * key[i];
         //printf("%f\n", key[i]);
     }
 
