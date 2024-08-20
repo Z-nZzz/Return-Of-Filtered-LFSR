@@ -5,13 +5,17 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
+print("AI(t):")
 g = [[0], [1, 2]]
-n_vals = range(18, 20)
+n_vals = range(16, 18)
 vals = []
 '''
-    g = [[0]]
-    for i in range(1, 1+ (n-1)//2):
-        g+=[[2*i-1, 2*i]]
+print("AI(u):")
+g = [[0]]
+for i in range(1, 1+ (n-1)//2):
+    g+=[[2*i-1, 2*i]]
+
+'''
 for n in n_vals:
     N = pow(2, n)
     truth_table = []
@@ -38,7 +42,6 @@ for n in n_vals:
     vals.append(ai)
 print(vals)
 
-'''
 #For g = u:
 vals = [2, 3, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6, 7, 7, 7]
 #For g = t:
