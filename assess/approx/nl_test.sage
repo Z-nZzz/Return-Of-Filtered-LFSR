@@ -4,28 +4,14 @@ from sage.crypto.boolean_function import BooleanFunction
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-import concurrent.futures
 
-#parallel
-def process_i(i):
-    x = bin(i)[2:]
-    state = [0] * (n - len(x)) + [int(xi) for xi in x]
-    state = state[::-1]
-    # hamming weight
-    hw = sum(state)
-    b = 0
-    for monomial in g:
-        tmp = 1
-        for k in monomial:
-            j = (k + hw) % n
-            tmp *= state[j]
-        b = b ^ tmp
-    return b * 2**i
+    
+g = [[0], [1, 2]]
 
-'''
-#g = [[0], [1, 2]]
-n_vals = range(29, 30)
+n_vals = range(24, 25)
 vals = []
+'''
+'''
 for n in n_vals:
     g = [[0]]
     for i in range(1, 1+ (n-1)//2):
@@ -33,16 +19,27 @@ for n in n_vals:
     N = pow(2, n)
     truth_table = 0
     #truth_table = []
-    with concurrent.futures.ProcessPoolExecutor(max_workers=7) as executor:
-        truth_table = sum(list(executor.map(process_i, range(N))))
+    for i in range(N):
+        x = bin(i)[2:]
+        state = [0] * (n - len(x)) + [int(xi) for xi in x]
+        state = state[::-1]
+    # hamming weight
+        hw = sum(state)
+        b = 0
+        for monomial in g:
+            tmp = 1
+            for k in monomial:
+                j = (k + hw - 1) % n
+                tmp *= state[j]
+            b = b ^^ tmp
+        #truth_table += [b]
+        truth_table += b * 2**i
     B = BooleanFunction(str(hex(truth_table))[2:])
-    #P = B.algebraic_normal_form()
-    #print(P)
-    #print("nl:", B.nonlinearity())
-    #print("AI:", B.algebraic_immunity())
+    #B = BooleanFunction(truth_table)
     nl = B.nonlinearity()
+    print("nl:", nl)
     vals.append(math.log2(2^(n-1) - nl))
-    #print(nl)
+
 print(vals)
 #Lower bound of the nonlinearity of a CWQ functions
 def lb_nl_cwq(n):
@@ -56,6 +53,7 @@ def lb_nl_cwq(n):
         r = 2*(2*comb(n-3, n//2-2) + comb(n-2, n//2-1) + 2**(n//2-1) + comb(n-2, n//2-1) + 1)
 
     return math.log2(r)
+
 N = int(input("N (1024 or 512):"))
 l = int(input("l (128 or 256):"))
 if N == 512:
@@ -75,7 +73,6 @@ if N == 1024:
         t = 17
     else : 
         t = 9
-'''
 N = 521
 l = 128
 t = 9

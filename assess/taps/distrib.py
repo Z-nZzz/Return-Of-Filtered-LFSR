@@ -85,14 +85,16 @@ for k, tap in enumerate(TAP):
     distr = [0]*N
     for i in range(n-1):
         x = tap[i]
-        y = tap[i+1]
-        distr[abs(x-y)] += 1        
-    plt.bar(n_vals, distr, label = labels[k])
-    plt.legend()
-    plt.show()
-'''
         for j in range(i+1, n):
             y = tap[j]
             distr[abs(x-y)] += 1        
+        #y = tap[i+1]
+        #distr[abs(x-y)] += 1        
+    plt.bar(n_vals, distr, label = labels[k])
+    plt.xlabel("Distance", fontsize=15)
+    plt.ylabel("Occurrence", fontsize=15)
+    plt.legend()
+    plt.show()
+'''
 '''
 

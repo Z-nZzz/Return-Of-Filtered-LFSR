@@ -2,17 +2,13 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include <math.h>
 #include "filter.h"
 
 #define stream_len 800000
 
 int main() {
-    //Our feedback polynomial 
-    //uint16_t P[] = {1, 4, 7, 511};
-    //uint16_t P[] = {31, 520};
-    //uint16_t P[] = {0, 12, 13, 18, 2047};
-    
     int_t key [NB_WORD];
     double nkey = 0;
     size_t g_len = 2;
@@ -20,16 +16,22 @@ int main() {
     clock_t end_time;
     double execution_time; 
     uint8_t keystream[stream_len];
-    int **g;
     Filter_t filter;
     LFSR_t lfsr;
-    int maxr = pow(2, W_SIZE);
-    
+    double maxr = pow(2, W_SIZE);
+    //int g[2][3] = {{0, -1, -1}, {1, 2, -1}};
+   
+    /*
+    int **g;
+    size_t i;
+    for (i = 0; i < 2; i++){
+            memcpy(g[i], tmpg[i], 3*sizeof(int));
+        }*/
+  
     //Initialising the key and initial state of our LFSR_t
     //Picking a random key for testing purpose
     for (size_t i = 0; i < NB_WORD; i++) {
-        key[i] = rand() % maxr;
-        //printf("%d\n", key[i]);
+        key[i] = fmod(rand(), maxr);
     }
     //printing the key
     for (size_t i = 0; i < NB_WORD; i++) {
@@ -38,6 +40,27 @@ int main() {
     }
 
     printf("key: %f\n", nkey);
+
+
+    //Init and use of the filter
+    filter_init(&filter, &lfsr, key);
+    
+    start_time = clock();
+    for (size_t i = 0; i < stream_len; i++) {
+        keystream[i] = filter_bit(&filter);
+        //printf("%d", keystream[i]);
+    }
+    end_time = clock();
+
+
+    execution_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+    printf("Execution time to generate 100Ko of keystream: %.6f seconds\n", execution_time);
+   
+    return 0;
+}
+
+
+
     
    /* 
     //Our Cyclic weightwise quadratic function base g = u
@@ -73,6 +96,7 @@ int main() {
     size_t g_len = n/2;
 */
  //Our Cyclic weightwise quadratic function base g = t = x_0 + x_1x_2
+/*
     g = malloc(2 * sizeof(int *));
     if (g == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
@@ -99,25 +123,13 @@ int main() {
     g[1][0] = 1;
     g[1][1] = 2;
     g[1][2] = -1;
-
-    //Init and use of the filter
-    filter_init(&filter, &lfsr, key, g, g_len);
     
-    start_time = clock();
-    for (size_t i = 0; i < stream_len; i++) {
-        keystream[i] = filter_bit(&filter);
-        //printf("%d", keystream[i]);
-    }
-    end_time = clock();
 
 
-    execution_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-    printf("Execution time to generate 100Ko of keystream: %.6f seconds\n", execution_time);
-   
+
+
     for (int i = 0; i < g_len; i++) {
         free(g[i]);
     }
     free(g);
-    return 0;
-}
-
+*/

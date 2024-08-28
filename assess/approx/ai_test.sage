@@ -29,7 +29,7 @@ for n in n_vals:
         for monomial in g:
             tmp = 1
             for k in monomial:
-                j = (k + hw) % n
+                j = (k + hw - 1) % n
                 tmp *= state[j]
             b = b ^^ tmp
         truth_table += [b]
