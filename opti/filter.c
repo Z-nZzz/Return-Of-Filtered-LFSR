@@ -6,7 +6,8 @@
 #include "lfsr.h"
 
 
-int G[2][3] = { {0, -1, -1}, {1, 2, -1} };
+ 
+
 
 /*
 Cyclic Weightwise degree d Boolean function for Filter_t generators using LFSR
@@ -32,14 +33,14 @@ void filter_init(Filter_t *filter, LFSR_t *lfsr, int_t *key) {
     if (W_SIZE == 32){
         uint8_t Taps_cpl[N_FILTER][2] = {{0, 0}, {0, 2}, {0, 4}, {0, 5}, {0, 8}, {0, 10}, {0, 14}, {0, 16}, {0, 17}, {0, 18}, {0, 28}, {0, 30}, {1, 4}, {1, 9}, {1, 10}, {1, 11}, {1, 14}, {1, 15}, {1, 19}, {1, 22}, {1, 26}, {1, 30}, {2, 9}, {2, 13}, {2, 18}, {2, 24}, {2, 25}, {2, 31}, {3, 1}, {3, 4}, {3, 8}, {3, 11}, {3, 22}, {3, 23}, {4, 1}, {4, 11}, {4, 12}, {4, 14}, {4, 18}, {4, 25}, {4, 29}, {5, 0}, {5, 4}, {5, 6}, {5, 23}, {5, 24}, {5, 26}, {5, 31}, {6, 0}, {6, 2}, {6, 4}, {6, 5}, {6, 7}, {6, 14}, {6, 15}, {6, 29}, {6, 30}, {7, 4}, {7, 13}, {7, 14}, {7, 18}, {7, 20}, {7, 22}, {7, 27}, {8, 1}, {8, 7}, {8, 8}, {8, 10}, {8, 14}, {8, 17}, {8, 25}, {9, 0}, {9, 6}, {9, 8}, {9, 12}, {9, 21}, {9, 25}, {10, 1}, {10, 4}, {10, 7}, {10, 8}, {10, 9}, {10, 12}, {10, 23}, {10, 27}, {11, 1}, {11, 3}, {11, 5}, {11, 15}, {11, 25}, {11, 29}, {11, 30}, {11, 31}, {12, 1}, {12, 13}, {12, 19}, {12, 23}, {12, 29}, {13, 8}, {13, 9}, {13, 13}, {13, 14}, {13, 21}, {13, 22}, {13, 23}, {13, 24}, {13, 26}, {13, 30}, {13, 31}, {14, 0}, {14, 1}, {14, 3}, {14, 8}, {14, 16}, {14, 17}, {14, 23}, {14, 24}, {14, 28}, {15, 0}, {15, 1}, {15, 2}, {15, 14}, {15, 20}, {15, 21}, {15, 22}, {16, 0}, {16, 1}, {16, 8}};
         int_t Taps[NB_WORD] = {1342653749, 1145622032, 2198086144, 12585234, 570710018, 2239758417, 1610662069, 139747344, 33703298, 35656001, 142611346, 3791683626, 545792002, 3319816960, 293798155, 7356423, 259};
-        
-        memcpy(filter->taps, Taps, NB_WORD*sizeof(int_t));
-        for (i = 0; i < N_FILTER; i++){
-            memcpy(filter->taps_cpl[i], Taps_cpl[i], 2*sizeof(uint8_t));
+
+    memcpy(filter->taps, Taps, NB_WORD*sizeof(int_t));
+    for (i = 0; i < N_FILTER; i++){
+        memcpy(filter->taps_cpl[i], Taps_cpl[i], 2*sizeof(uint8_t));
         }
     }
-
 }
+
 //Generating one bit of keystream with the filter function and the state of the LFSR that is also updated
 uint8_t filter_bit(Filter_t *filter) {
     uint8_t *k;
@@ -51,13 +52,14 @@ uint8_t filter_bit(Filter_t *filter) {
     uint8_t current = 0;
     unsigned int v;
     unsigned int c;
+    uint8_t G[2][3] = { {0, -1, -1}, {1, 2, -1} };
     //int g[2][3] = G;
 
     int_t state[N_FILTER];
     //Getting the variables for our filter from the LFSR state
     for (i = 0; i < NB_WORD; i++) {
         state[i] = filter->taps[i] & (filter->lfsr->s[i]);
-        printf("%d\n", state[i]);
+        //printf("%d\n", state[i]);
     }
     //printf("\n");
     hw = 0;
@@ -83,7 +85,7 @@ uint8_t filter_bit(Filter_t *filter) {
         b ^= tmp;
     }
     lfsr_bit(filter->lfsr);
-    printf("%d\n", b);
+    //printf("%d\n", b);
     return b;
 }
 

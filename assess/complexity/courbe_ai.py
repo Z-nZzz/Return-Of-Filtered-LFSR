@@ -7,6 +7,7 @@ lambda1 = 128
 N = int(input("LFSR length:"))
 ai_max = 80
 ai_vals = range(ai_max)
+plt.figure(figsize=(16,9))
 
 def somme_coeff_binomiaux(n, a):
     return sum([math.comb(n, i) for i in range(a+1)])

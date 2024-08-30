@@ -6,41 +6,28 @@
 #include <math.h>
 #include "filter.h"
 
-#define stream_len 800000
+#define stream_len 8000000
 
 int main() {
     int_t key [NB_WORD];
-    double nkey = 0;
-    size_t g_len = 2;
     clock_t start_time;
     clock_t end_time;
     double execution_time; 
     uint8_t keystream[stream_len];
     Filter_t filter;
     LFSR_t lfsr;
-    double maxr = pow(2, W_SIZE);
-    //int g[2][3] = {{0, -1, -1}, {1, 2, -1}};
-   
-    /*
-    int **g;
-    size_t i;
-    for (i = 0; i < 2; i++){
-            memcpy(g[i], tmpg[i], 3*sizeof(int));
-        }*/
-  
+    //double maxr = pow(2, W_SIZE);
+    
     //Initialising the key and initial state of our LFSR_t
     //Picking a random key for testing purpose
     for (size_t i = 0; i < NB_WORD; i++) {
-        key[i] = fmod(rand(), maxr);
+        key[i] = rand();
     }
     //printing the key
     for (size_t i = 0; i < NB_WORD; i++) {
-        nkey += pow(2, W_SIZE * (NB_WORD - 1 - i)) * key[i];
-        //printf("%f\n", key[i]);
+        //nkey += pow(2, W_SIZE * (NB_WORD - 1 - i)) * key[i];
+        printf("%d\n", key[i]);
     }
-
-    printf("key: %f\n", nkey);
-
 
     //Init and use of the filter
     filter_init(&filter, &lfsr, key);
@@ -52,9 +39,8 @@ int main() {
     }
     end_time = clock();
 
-
     execution_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-    printf("Execution time to generate 100Ko of keystream: %.6f seconds\n", execution_time);
+    printf("Execution time to generate 1Mo of keystream: %.6f seconds\n", execution_time);
    
     return 0;
 }

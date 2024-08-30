@@ -15,7 +15,7 @@ c = 2*(l + N)
 discriminant = b**2 - 4*a*c
 t = int((-b + math.sqrt(discriminant)) / (2*a))
 print(t)
-
+plt.figure(figsize=(16,9))
 vals = np.array([(N-l)/(2*t*(t - 2))+ n -1 - l/(2*t)  for n in range(n_max)])
 vals = np.array([vals[n] if vals[n] >= n//2 -1 else 0 for n in range(n_max)])
 plt.plot(range(n_max), vals, label='max(r), with lambda = '+ str(l) + ', N = ' + str(N))

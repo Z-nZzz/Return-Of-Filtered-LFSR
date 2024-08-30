@@ -9,8 +9,6 @@
     ((lfsr->s[nw])>>(W_SIZE - pw))%2
 
 
-const uint16_t POLY[P_LEN][2] =  {{31/W_SIZE, 31 % W_SIZE}, {520/W_SIZE, 520 % W_SIZE}};
-const int_t endianness = pow(2, W_SIZE - 1);
 
 void lfsr_init(LFSR_t *lfsr, int_t *key) {
     for (size_t i = 0; i < N_LFSR; i++) {
@@ -32,7 +30,9 @@ void print_state(LFSR_t *lfsr){
 }
 //Computing the feedback bit using the feedback polynomial
 uint8_t lfsr_sum(LFSR_t *lfsr) {
+    const uint8_t POLY[P_LEN][2] =  {{0, 0}, {5/W_SIZE,  5% W_SIZE}, {18/W_SIZE,  18% W_SIZE}, {1023/W_SIZE,  1023% W_SIZE}};
     uint8_t s = 0;
+
     for (size_t i = 0; i < P_LEN; i++) {
         //printf("%d\n", GET_BIT(lfsr, POLY[i][0], POLY[i][1]));
         s ^= GET_BIT(lfsr, POLY[i][0], POLY[i][1]);
@@ -41,14 +41,18 @@ uint8_t lfsr_sum(LFSR_t *lfsr) {
 }
 //Updating the lfsr state with the feedback bit and the shift of the registers
 void lfsr_bit(LFSR_t *lfsr) {
+    const int_t endianness = pow(2, W_SIZE - 1);
+    uint8_t new_bit;
+    uint8_t tmp;
+
     if (debug){
         print_state(lfsr);
 }
     //uint8_t b = GET_BIT(lfsr, NB_WORD - 1, LAST_BIT_POS);
-    uint8_t new_bit = lfsr_sum(lfsr);
+    new_bit = lfsr_sum(lfsr);
 
     for (size_t i = N_LFSR - 1; i > 0; i--) {
-        uint8_t tmp = GET_BIT(lfsr, i-1, W_SIZE - 1);
+        tmp = GET_BIT(lfsr, i-1, W_SIZE - 1);
         lfsr->s[i] = (lfsr->s[i] >> 1) | tmp;
     }
     lfsr->s[0] = (lfsr->s[0] >> 1) | new_bit * endianness;
