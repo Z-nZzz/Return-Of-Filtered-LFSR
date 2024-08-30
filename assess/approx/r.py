@@ -16,7 +16,7 @@ def lb_nl_cwq(n):
     return math.log2(r)
 
 N = int(input("N :"))
-l = int(input("l (128 or 256 or 512 or 312 or 226):"))
+l = int(input("l (security level, for instance 128):"))
 
 #looking for the value of t s.t. the complexity is minimal
 a = l
@@ -53,40 +53,3 @@ plt.legend()
 plt.xlabel("n", fontsize=15)
 plt.ylabel("r", fontsize=15)
 plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-if N == 521:
-    if l == 128:
-        t = 9
-    elif l == 256:
-        t = 5
-    elif l == 312:
-        t = 4
-
-if N == 2203:
-    if l == 128:
-        t = 32
-    elif l == 512:
-        t = 9 
-    else : 
-        t = 16
-
-if N == 1279:
-    if l == 128:
-        t = 17
-    elif l == 512:
-        t = 5 
-    else : 
-        t = 9
-'''
