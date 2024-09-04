@@ -6,6 +6,18 @@ all: main
 test: test.o lfsr.o filter.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
+testf: testfilter.o lfsr.o filter.o
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+
+testf.o: testfilter.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+testl: testlfsr.o lfsr.o 
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+
+testl.o: testlfsr.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
 test.o: test.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -22,5 +34,5 @@ filter.o: filter.c filter.h lfsr.h
 	$(CC) $(CFLAGS) -c $<
 
 clean:
-	rm -f *.o main test
+	rm -f *.o main test testl
 
