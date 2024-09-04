@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 
 #Computing the max values for r = 2^(n-1 - nl) dependin on n, to be resistant against the corelation attack (considering it's minimal complexity) with l bits of security for a chosen N. 
 
-N = int(input("N (bigger than 350): "))
+N = int(input("N: "))
 l = int(input("Security level l: "))
-n_max = 350
+n_max = 250
 
 #looking for the value of t s.t. the complexity is minimal
 a = l
@@ -22,9 +22,9 @@ plt.plot(range(n_max), vals, label='max(r), with lambda = '+ str(l) + ', N = ' +
 plt.plot(range(n_max), [n-1 for n in range(n_max)], label='y = n-1')
 plt.plot(range(n_max), [n//2 - 1  for n in range(n_max)], label='y = n/2 - 1')
 plt.grid()
-plt.legend()
-plt.xlabel('n', fontsize=15)
-plt.ylabel('max(r)', fontsize=15)
+plt.legend(prop={'size': 20})
+plt.xlabel('n', fontsize=20)
+plt.ylabel('max(r)', fontsize=20)
 plt.show()
 
 

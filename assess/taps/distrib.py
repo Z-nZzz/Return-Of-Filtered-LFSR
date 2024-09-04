@@ -94,10 +94,11 @@ for k, tap in enumerate(TAP):
             distr[abs(x-y)] += 1        
         #y = tap[i+1]
         #distr[abs(x-y)] += 1        
+    plt.figure(figsize=(16,9))
     plt.bar(n_vals, distr, label = labels[k])
-    plt.xlabel("Distance", fontsize=15)
-    plt.ylabel("Occurrence", fontsize=15)
-    plt.legend()
+    plt.xlabel("Distance", fontsize=20)
+    plt.ylabel("Occurrence", fontsize=20)
+    plt.legend(prop={'size':20} )
     plt.show()
 '''
 '''
