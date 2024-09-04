@@ -3,32 +3,22 @@ import random
 from LFSR import LFSR
 from Filter import Filter
 
-#N = int(input("Enter N (1024 or 512 or 2048 or 2203 or 607 or 2281 or 1279 or 521):"))
+#N = int(input("Enter N (1024 or 512 or 2048):"))
 n = int(input("Enter n :"))
 l = int(input("Enter the length of the keystream to generate in Ko:"))
-for N in [  512, 521, 607, 1024, 1279  , 2048, 2203 , 2281]:
+for N in [512, 1024, 2048]:
     key = [ random.getrandbits(1) for _ in range(N) ]
 #Setting the primitive polynomial of degree N
-    if N == 2281:
-        P = [714, 2280]
-    elif N == 2203:
-        P = [4, 5, 13, 2202]
-    elif N == 2048:
+    if N == 2048:
         P = [0, 12, 13, 18, 2047]
-    elif N == 1279:
-        P = [215, 1278]
-    elif N == 521:
-        P = [31, 520]
-    elif N == 607:
-        P = [104, 606]
-#x^1024 + x^19 + x^6 + x + 1
+    
     elif N == 1024:
         P = [5, 18, 1023]
-#x^512 + x^8 + x^5 + x^2 + 1
+    
     elif N == 512:
         P = [1, 4, 7, 511]
     else:
-        print("Bro I said 1024 or 512 or 2048 or a mersenne prime around those...")
+        print("Bro I said 1024 or 512 or 2048...")
         exit(1)
     print("N: ",N)
 
