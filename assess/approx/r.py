@@ -38,18 +38,18 @@ slope, intercept = coefficients
 x_extended = np.linspace(min(n_vals), max(n_vals) * 5, 100)
 y_extended = slope * x_extended + intercept
 
-plt.plot(x_extended, y_extended, '--', label='Linear approximation of r')
+plt.plot(x_extended, y_extended, '--', label='Linear regression of log(r)')
 plt.plot(n_vals, nl_vals,'o', label="r = 2^(n-1) - nl(f)")
 n_vals = x_extended
 tmp = [(N-l)/(2 * t * (t - 2))+ n -1 - l/(2*t)  for n in n_vals]
 maxr_vals = [tmp[i] if tmp[i] > 0 else 0 for i in range(len(tmp))]
 
-plt.plot(n_vals, maxr_vals, label="max(r), with N = " + str(N) + ", lambda = " + str(l))
+plt.plot(n_vals, maxr_vals, label="max(r), with N = " + str(N) + ", and lambda = " + str(l))
 plt.plot(n_vals, [n//2 for n in n_vals], label="y = n//2")
 plt.plot(n_vals, [n/10 + 2*n/3 for n in n_vals], label="y = n/10 + 2n/3")
 plt.plot(n_vals, [lb_nl_cwq(n) for n in n_vals], label="Proven upper bound")
 plt.grid()
 plt.legend(prop={'size':20} )
 plt.xlabel("n", fontsize=20)
-plt.ylabel("r", fontsize=20)
+plt.ylabel("log(r)", fontsize=20)
 plt.show()
