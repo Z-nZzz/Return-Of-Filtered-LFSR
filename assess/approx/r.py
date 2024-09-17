@@ -31,7 +31,7 @@ nl_vals = np.array([2.0, 2.584962500721156, 3.0, 4.0, 4.584962500721156, 5.16992
 #nl_vals = vals
 n_vals = range(4, len(nl_vals)+4)
 nl_vals = nl_vals.astype(float)
-
+plt.figure(figsize=(16,9))
 #Linear approximation
 coefficients = np.polyfit(n_vals, nl_vals, 1)
 slope, intercept = coefficients
@@ -44,12 +44,12 @@ n_vals = x_extended
 tmp = [(N-l)/(2 * t * (t - 2))+ n -1 - l/(2*t)  for n in n_vals]
 maxr_vals = [tmp[i] if tmp[i] > 0 else 0 for i in range(len(tmp))]
 
-plt.plot(n_vals, maxr_vals, label="max(r), with N = " + str(N) + " lambda = " + str(l))
+plt.plot(n_vals, maxr_vals, label="max(r), with N = " + str(N) + ", lambda = " + str(l))
 plt.plot(n_vals, [n//2 for n in n_vals], label="y = n//2")
 plt.plot(n_vals, [n/10 + 2*n/3 for n in n_vals], label="y = n/10 + 2n/3")
 plt.plot(n_vals, [lb_nl_cwq(n) for n in n_vals], label="Proven upper bound")
 plt.grid()
-plt.legend()
-plt.xlabel("n", fontsize=15)
-plt.ylabel("r", fontsize=15)
+plt.legend(prop={'size':20} )
+plt.xlabel("n", fontsize=20)
+plt.ylabel("r", fontsize=20)
 plt.show()

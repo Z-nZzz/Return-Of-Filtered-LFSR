@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 print("AI(t):")
 g = [[0], [1, 2]]
-n_vals = range(16, 18)
+n_vals = range(16, 16)
 vals = []
 '''
 print("AI(u):")
@@ -41,7 +41,7 @@ for n in n_vals:
     print("AI:", ai)
     vals.append(ai)
 print(vals)
-
+plt.figure(figsize=(16,9))
 #For g = u:
 vals = [2, 3, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6, 7, 7, 7]
 #For g = t:
@@ -60,7 +60,7 @@ plt.plot(n_vals, vals,'o', label="AI(f), for g = u;")
 #plt.plot(x_extended, [52 for _ in x_extended], label="y = 52")
 plt.plot(x_extended, [x//3 for x in x_extended], label="y = n/3")
 plt.grid()
-plt.legend()
-plt.xlabel("n", fontsize=15)
-plt.ylabel("ai", fontsize=15)
+plt.legend(prop={'size':20} )
+plt.xlabel("n", fontsize=20)
+plt.ylabel("ai", fontsize=20)
 plt.show()

@@ -1,7 +1,11 @@
 CC = gcc
-CFLAGS = -Wall -O3 -g 
+CFLAGS = -Wall -O3
 
 all: main
+
+debug: CFLAGS += -g -fsanitize=address
+debug: LDLFAGS += -fsanitize=address
+debug: main
 
 test: test.o lfsr.o filter.o
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
