@@ -39,7 +39,7 @@ x_extended = np.linspace(min(n_vals), max(n_vals) * 5, 100)
 y_extended = slope * x_extended + intercept
 
 plt.plot(x_extended, y_extended, '--', label='Linear regression of log(r)')
-plt.plot(n_vals, nl_vals,'o', label="r = 2^(n-1) - nl(f)")
+plt.plot(n_vals, nl_vals,'o', label="log(r) = log(2^(n-1) - nl(f))")
 n_vals = x_extended
 tmp = [(N-l)/(2 * t * (t - 2))+ n -1 - l/(2*t)  for n in n_vals]
 maxr_vals = [tmp[i] if tmp[i] > 0 else 0 for i in range(len(tmp))]

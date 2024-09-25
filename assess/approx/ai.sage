@@ -43,9 +43,9 @@ for n in n_vals:
 print(vals)
 plt.figure(figsize=(16,9))
 #For g = u:
-vals = [2, 3, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6, 7, 7, 7]
+#vals = [2, 3, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6, 7, 7, 7]
 #For g = t:
-#vals = [2, 3, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7]
+vals = [2, 3, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7]
 n_vals = range(4, len(vals)+4)
 coefficients = np.polyfit(n_vals, vals, 1)
 slope, intercept = coefficients
@@ -55,12 +55,12 @@ y_extended = slope * x_extended + intercept
 y_extended = [math.ceil(y) for y in y_extended] 
 
 plt.plot(x_extended, y_extended, '--', label='Linear approximation of AI(f)')
-plt.plot(n_vals, vals,'o', label="AI(f), for g = u;")
+plt.plot(n_vals, vals,'o', label="AI(f), g = x0 + x1x2")
 #plt.plot(x_extended, [22 for _ in x_extended], label="y = 22")
 #plt.plot(x_extended, [52 for _ in x_extended], label="y = 52")
 plt.plot(x_extended, [x//3 for x in x_extended], label="y = n/3")
 plt.grid()
 plt.legend(prop={'size':20} )
 plt.xlabel("n", fontsize=20)
-plt.ylabel("ai", fontsize=20)
+plt.ylabel("AI", fontsize=20)
 plt.show()
