@@ -50,8 +50,8 @@ def plot_nonlinearity(n_vals, vals, g_description):
     y_extended = [math.ceil(slope * x + intercept) for x in x_extended]
     
     # Plotting
-    plt.plot(x_extended, y_extended, '--', label='Linear approximation of nl(f)')
-    plt.plot(n_vals, vals, 'o', label=f"nl(f), g = {g_description}")
+    plt.plot(x_extended, y_extended, '--', label='Linear approximation of 2^(n-1) - nl(f)')
+    plt.plot(n_vals, vals, 'o', label=f"2^(n-1) - nl(f), g = {g_description}")
     plt.plot(x_extended, [n//2 - 1 for n in x_extended], label="y = n//2")
     plt.plot(x_extended, [1+2*n//3 + n//5 for n in x_extended], label="y = n/10 + 2n/3")
     #plt.plot(x_extended, [lb_nl_cwq(n) for n in x_extended], label="Proven lower bound")
@@ -118,14 +118,14 @@ def main():
         vals = [calculate_nonlinearity(n, g_t) for n in n_vals]
         print("Nonlinearity values:", vals)
         print("Coefficients of linear approximation:", np.polyfit(n_vals, vals, 1))
-        plot_nonlinearity(n_vals, vals, "x0 + x1x2 (calculated)")
+        plot_nonlinearity(n_vals, vals, "x0 + x1x2")
     elif choice == '4':
         n_vals = get_user_input()
         print("Calculating nonlinearity...")
         vals = [calculate_nonlinearity(n, gen_g_v(n)) for n in n_vals]
         print("Nonlinearity values:", vals)
         print("Coefficients of linear approximation:", np.polyfit(n_vals, vals, 1))
-        plot_nonlinearity(n_vals, vals, "x0 + sum(x_-i)(x_2i) (calculated)")
+        plot_nonlinearity(n_vals, vals, "x0 + sum(x_-i)(x_2i)")
     else:
         print("Invalid choice. Please run the program again and select 1, 2, 3 or 4.")
     
